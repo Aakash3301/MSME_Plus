@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "primary-fixed-dim": "#74d8bd",
+                  "inverse-on-surface": "#f4eff5",
+                  "on-tertiary": "#ffffff",
+                  "on-surface-variant": "#3e4945",
+                  "on-error-container": "#93000a",
+                  "tertiary-container": "#2d73cf",
+                  "inverse-primary": "#74d8bd",
+                  "secondary-fixed-dim": "#c4c7c7",
+                  "on-surface": "#1c1b1f",
+                  "surface-bright": "#fdf8fd",
+                  "on-error": "#ffffff",
+                  "on-primary-fixed-variant": "#005142",
+                  "surface-container-highest": "#e5e1e7",
+                  "outline-variant": "#bdc9c4",
+                  "surface-dim": "#ddd9de",
+                  "primary-container": "#00836c",
+                  "on-primary": "#ffffff",
+                  "error-container": "#ffdad6",
+                  "error": "#ba1a1a",
+                  "on-tertiary-fixed": "#001b3d",
+                  "surface-container-lowest": "#ffffff",
+                  "surface-variant": "#e5e1e7",
+                  "secondary-fixed": "#e1e3e3",
+                  "outline": "#6e7a75",
+                  "secondary": "#5c5f5f",
+                  "primary": "#006855",
+                  "on-secondary-fixed-variant": "#444748",
+                  "on-primary-fixed": "#002019",
+                  "surface-tint": "#006b58",
+                  "surface-container": "#f1ecf2",
+                  "on-tertiary-container": "#fcfaff",
+                  "primary-fixed": "#90f5d9",
+                  "on-secondary-fixed": "#191c1d",
+                  "on-primary-container": "#eefff7",
+                  "inverse-surface": "#313034",
+                  "tertiary-fixed": "#d6e3ff",
+                  "secondary-container": "#dee0e0",
+                  "on-background": "#1c1b1f",
+                  "surface-container-low": "#f7f2f8",
+                  "on-secondary": "#ffffff",
+                  "background": "#fdf8fd",
+                  "on-secondary-container": "#606363",
+                  "tertiary-fixed-dim": "#a9c7ff",
+                  "tertiary": "#005ab1",
+                  "surface-container-high": "#ebe7ec",
+                  "on-tertiary-fixed-variant": "#00468c",
+                  "surface": "#fdf8fd"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "lg": "24px",
+                  "gutter": "12px",
+                  "sm": "8px",
+                  "md": "16px",
+                  "container-margin": "16px",
+                  "base": "4px",
+                  "xs": "4px",
+                  "xl": "32px"
+          },
+          "fontFamily": {
+                  "title-lg": ["Inter"],
+                  "display-lg": ["Inter"],
+                  "headline-sm": ["Inter"],
+                  "body-lg": ["Inter"],
+                  "label-lg": ["Inter"],
+                  "label-md": ["Inter"],
+                  "headline-lg": ["Inter"],
+                  "body-md": ["Inter"],
+                  "title-md": ["Inter"],
+                  "headline-lg-mobile": ["Inter"]
+          },
+          "fontSize": {
+                  "title-lg": ["22px", {"lineHeight": "28px", "fontWeight": "500"}],
+                  "display-lg": ["57px", {"lineHeight": "64px", "letterSpacing": "-0.25px", "fontWeight": "400"}],
+                  "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                  "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "0.5px", "fontWeight": "400"}],
+                  "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "500"}],
+                  "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500"}],
+                  "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                  "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.25px", "fontWeight": "400"}],
+                  "title-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.15px", "fontWeight": "600"}],
+                  "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      line-height: 1;
+      text-transform: none;
+      letter-spacing: normal;
+      word-wrap: normal;
+      white-space: nowrap;
+      direction: ltr;
+    }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    .glass-card {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    @keyframes pulse-soft {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(0.98); }
+    }
+    .sync-active { animation: pulse-soft 2s infinite ease-in-out; }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-primary shadow-sm flex justify-between items-center px-container-margin h-16 w-full">
+<div class="flex items-center gap-4">
+<button class="text-on-primary Active: scale-95 transition-transform">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-headline-sm text-headline-sm font-bold text-on-primary">Data Sources</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-primary/80 hover:opacity-90 transition-transform Active: scale-95">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<main class="pt-20 px-container-margin max-w-2xl mx-auto">
+<!-- Summary Section -->
+<section class="mt-4 mb-8">
+<div class="bg-primary-container/10 p-md rounded-xl border border-primary/10">
+<div class="flex gap-4 items-start">
+<div class="bg-primary p-2 rounded-lg text-on-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
+</div>
+<div>
+<h2 class="font-title-md text-title-md text-primary mb-1">Empower Your Health Score</h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              These alternate data sources power our advanced AI Health Score. Integrating your GST, UPI, and bank statements allows us to provide more competitive loan offers and deeper financial insights.
+            </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Data Sources Grid -->
+<div class="space-y-4">
+<!-- GST Card -->
+<div class="bg-surface-container-lowest p-md rounded-2xl shadow-sm border border-outline-variant flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="flex gap-3 items-center">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl">receipt_long</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md">GST</h3>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-md text-label-md">Connected</span>
+</div>
+</div>
+</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-full font-label-lg hover:opacity-90 transition-all active:scale-95 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+            Sync
+          </button>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-2 border-t border-outline-variant/30">
+<div>
+<p class="text-on-surface-variant font-label-md uppercase tracking-wider">Last Sync</p>
+<p class="font-title-md text-title-md">2h ago</p>
+</div>
+<div>
+<p class="text-on-surface-variant font-label-md uppercase tracking-wider">Data Health</p>
+<div class="flex items-center gap-1">
+<p class="font-title-md text-title-md text-primary">Excellent (98%)</p>
+</div>
+</div>
+</div>
+</div>
+<!-- UPI Card -->
+<div class="bg-surface-container-lowest p-md rounded-2xl shadow-sm border border-outline-variant flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="flex gap-3 items-center">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl">payments</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md">UPI</h3>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-md text-label-md">Connected</span>
+</div>
+</div>
+</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-full font-label-lg hover:opacity-90 transition-all active:scale-95 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+            Sync
+          </button>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-2 border-t border-outline-variant/30">
+<div>
+<p class="text-on-surface-variant font-label-md uppercase tracking-wider">Last Sync</p>
+<p class="font-title-md text-title-md">10m ago</p>
+</div>
+<div>
+<p class="text-on-surface-variant font-label-md uppercase tracking-wider">Data Health</p>
+<p class="font-title-md text-title-md text-primary">Good (91%)</p>
+</div>
+</div>
+</div>
+<!-- Account Aggregator -->
+<div class="bg-surface-container-lowest p-md rounded-2xl shadow-sm border border-outline-variant flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="flex gap-3 items-center">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl">hub</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md">Account Aggregator</h3>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-md text-label-md">Connected</span>
+</div>
+</div>
+</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-full font-label-lg hover:opacity-90 transition-all active:scale-95 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+            Sync
+          </button>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-2 border-t border-outline-variant/30">
+<div>
+<p class="text-on-surface-variant font-label-md uppercase tracking-wider">Last Sync</p>
+<p class="font-title-md text-title-md">1d ago</p>
+</div>
+<div>
+<p class="text-on-surface-variant font-label-md uppercase tracking-wider">Data Health</p>
+<p class="font-title-md text-title-md text-primary">Stable (88%)</p>
+</div>
+</div>
+</div>
+<!-- EPFO -->
+<div class="bg-surface-container-lowest p-md rounded-2xl shadow-sm border border-outline-variant flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="flex gap-3 items-center">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl">assured_workload</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md">EPFO</h3>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-md text-label-md">Connected</span>
+</div>
+</div>
+</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-full font-label-lg hover:opacity-90 transition-all active:scale-95 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+            Sync
+          </button>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-2 border-t border-outline-variant/30">
+<div>
+<p class="text-on-surface-variant font-label-md uppercase tracking-wider">Last Sync</p>
+<p class="font-title-md text-title-md">3d ago</p>
+</div>
+<div>
+<p class="text-on-surface-variant font-label-md uppercase tracking-wider">Data Health</p>
+<p class="font-title-md text-title-md text-primary">Validated</p>
+</div>
+</div>
+</div>
+<!-- Bank Statement -->
+<div class="bg-surface-container-lowest p-md rounded-2xl shadow-sm border border-outline-variant flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="flex gap-3 items-center">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl">account_balance</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md">Bank Statement</h3>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-md text-label-md">Connected</span>
+</div>
+</div>
+</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-full font-label-lg hover:opacity-90 transition-all active:scale-95 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+            Sync
+          </button>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-2 border-t border-outline-variant/30">
+<div>
+<p class="text-on-surface-variant font-label-md uppercase tracking-wider">Last Sync</p>
+<p class="font-title-md text-title-md">5h ago</p>
+</div>
+<div>
+<p class="text-on-surface-variant font-label-md uppercase tracking-wider">Data Health</p>
+<p class="font-title-md text-title-md text-primary">Comprehensive</p>
+</div>
+</div>
+</div>
+<!-- Utility Bills (Pending) -->
+<div class="bg-surface-container-lowest p-md rounded-2xl shadow-sm border border-outline-variant flex flex-col gap-4 border-l-4 border-l-error">
+<div class="flex justify-between items-start">
+<div class="flex gap-3 items-center">
+<div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-2xl">bolt</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md">Utility Bills</h3>
+<div class="flex items-center gap-1 text-error">
+<span class="material-symbols-outlined text-[14px]">error</span>
+<span class="font-label-md text-label-md">Pending</span>
+</div>
+</div>
+</div>
+<button class="bg-tertiary text-on-tertiary px-4 py-2 rounded-full font-label-lg hover:opacity-90 transition-all active:scale-95 flex items-center gap-2">
+            Connect Now
+          </button>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-2 border-t border-outline-variant/30">
+<div>
+<p class="text-on-surface-variant font-label-md uppercase tracking-wider">Last Sync</p>
+<p class="font-title-md text-title-md text-outline">N/A</p>
+</div>
+<div>
+<p class="text-on-surface-variant font-label-md uppercase tracking-wider">Data Health</p>
+<p class="font-title-md text-title-md text-error">Action Required</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Security Information -->
+<div class="mt-8 flex items-center justify-center gap-3 text-on-surface-variant/60 py-4">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+<p class="font-label-md">256-bit AES Encryption Secure Data Tunnel</p>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-gutter py-2 pb-safe bg-surface border-t border-outline-variant z-50">
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-secondary-container/50 rounded-lg transition-all duration-150 cursor-pointer">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-secondary-container/50 rounded-lg transition-all duration-150 cursor-pointer">
+<span class="material-symbols-outlined">insights</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-secondary-container/50 rounded-lg transition-all duration-150 cursor-pointer">
+<span class="material-symbols-outlined">smart_toy</span>
+<span class="font-label-md text-label-md">AI advisor</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-secondary-container/50 rounded-lg transition-all duration-150 cursor-pointer">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">Loans</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-5 py-1 transition-all duration-150 cursor-pointer Active: scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</div>
+</nav>
+<script>
+    // Micro-interaction for sync buttons
+    document.querySelectorAll('button').forEach(button => {
+      if (button.innerText.includes('Sync')) {
+        button.addEventListener('click', function() {
+          const originalContent = this.innerHTML;
+          this.innerHTML = `<span class="material-symbols-outlined text-[18px] animate-spin">sync</span> Syncing...`;
+          this.classList.add('opacity-70', 'cursor-wait');
+          
+          setTimeout(() => {
+            this.innerHTML = `<span class="material-symbols-outlined text-[18px]">check</span> Updated`;
+            this.classList.remove('opacity-70', 'cursor-wait');
+            this.classList.replace('bg-primary', 'bg-tertiary-container');
+            
+            setTimeout(() => {
+              this.innerHTML = originalContent;
+              this.classList.replace('bg-tertiary-container', 'bg-primary');
+            }, 2000);
+          }, 1500);
+        });
+      }
+    });
+  </script>
+</body></html>
