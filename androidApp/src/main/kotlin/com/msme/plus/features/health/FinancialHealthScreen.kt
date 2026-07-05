@@ -37,6 +37,7 @@ import com.msme.plus.shared.features.health.FinancialHealthIntent
 import com.msme.plus.shared.features.health.FinancialHealthViewModel
 import com.msme.plus.ui.theme.*
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import com.msme.plus.ui.components.shimmerEffect
 
 
 @Composable
@@ -69,10 +70,7 @@ fun FinancialHealthScreen(
                 .padding(paddingValues)
         ) {
             if (state.isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center),
-                    color = IdbiPrimary
-                )
+                FinancialHealthShimmer()
             } else if (state.error != null) {
                 Text(
                     text = state.error ?: "Unknown error",
@@ -485,5 +483,70 @@ private fun LoanOfferBanner(
                 fontWeight = FontWeight.Medium
             )
         }
+    }
+}
+
+@Composable
+private fun FinancialHealthShimmer() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+            .padding(top = 32.dp, bottom = 48.dp),
+        verticalArrangement = Arrangement.spacedBy(24.dp)
+    ) {
+        // Top app bar equivalent shimmer
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(64.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .shimmerEffect()
+        )
+
+        // Overall Score Card Shimmer
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(350.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .shimmerEffect()
+        )
+
+        // Score Breakdown Shimmer
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(280.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .shimmerEffect()
+        )
+
+        // Strengths Shimmer
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(180.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .shimmerEffect()
+        )
+
+        // Risks Shimmer
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(180.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .shimmerEffect()
+        )
+        
+        // Loan Banner Shimmer
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .shimmerEffect()
+        )
     }
 }

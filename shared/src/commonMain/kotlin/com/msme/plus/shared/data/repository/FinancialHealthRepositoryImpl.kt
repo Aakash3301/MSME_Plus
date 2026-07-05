@@ -10,17 +10,39 @@ import com.msme.plus.shared.domain.repository.FinancialHealthRepository
 import kotlinx.coroutines.delay
 import kotlinx.serialization.json.Json
 
-class FinancialHealthRepositoryImpl : FinancialHealthRepository {
+import com.msme.plus.shared.core.storage.SettingsManager
+import com.msme.plus.shared.data.network.ApiService
+import com.msme.plus.shared.data.model.health.FinancialHealthResponseDto
+import com.msme.plus.shared.domain.models.MsmeProfile
+
+class FinancialHealthRepositoryImpl(
+    private val apiService: ApiService,
+    private val settingsManager: SettingsManager
+) : FinancialHealthRepository {
     private val json = Json { ignoreUnknownKeys = true }
 
     override suspend fun getFinancialHealth(): Resource<FinancialHealthData> {
         return safeApiCall {
+            // --- OLD MOCK CALL (kept commented out as requested) ---
+            /*
             delay(1000)
-            val dto = json.decodeFromString(
-                FinancialHealthDto.serializer(),
+            val responseDto = json.decodeFromString(
+                FinancialHealthResponseDto.serializer(),
                 FinancialHealthMockData.FINANCIAL_HEALTH_JSON
             )
-            dto.toDomain()
+            responseDto.data.toDomain()
+            */
+            
+            // --- REAL API CALL ---
+            val msmeJson = settingsManager.getMsmeProfile() ?: throw Exception("User profile not found")
+            val msme = json.decodeFromString(MsmeProfile.serializer(), msmeJson)
+            val response = apiService.getFinancialHealth(msme.id)
+            
+            if (response.statusCode != 200) {
+                throw Exception(response.message)
+            }
+            
+            response.data.toDomain()
         }
     }
 }

@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.msme.plus.shared.domain.model.loan.AssessmentResult
 import com.msme.plus.shared.domain.model.loan.LoanAssessmentData
+import com.msme.plus.shared.features.analytics.RevenueAnalyticsIntent
 import com.msme.plus.shared.features.loan.LoanAssessmentEffect
 import com.msme.plus.shared.features.loan.LoanAssessmentIntent
 import com.msme.plus.shared.features.loan.LoanAssessmentViewModel
@@ -76,8 +77,12 @@ fun LoanAssessmentContent(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { onIntent(LoanAssessmentIntent.BackClicked) }) {
-                        Text("←", fontSize = 24.sp, color = Color.White)
+                    IconButton(onClick = {onIntent(LoanAssessmentIntent.BackClicked)}) {
+                        Icon(
+                            painter = painterResource(id = com.msme.plus.R.drawable.arrow_back_24),
+                            contentDescription = "Back",
+                            tint = Color.Unspecified)
+
                     }
                 },
                 actions = {
