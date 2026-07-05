@@ -72,7 +72,7 @@ val sharedModule = module {
     single<LoanAssessmentRepository> { LoanAssessmentRepositoryImpl(get(), get()) }
     single<RevenueAnalyticsRepository> { RevenueAnalyticsRepositoryImpl(get(), get()) }
     single<AlternateDataRepository> { AlternateDataRepositoryImpl() }
-    single<AiAdvisorRepository> { AiAdvisorRepositoryImpl() }
+    single<AiAdvisorRepository> { AiAdvisorRepositoryImpl(get(), get()) }
     single<AiRecommendationsRepository> { AiRecommendationsRepositoryImpl() }
     single<BusinessProfileRepository> { BusinessProfileRepositoryImpl() }
 

@@ -11,6 +11,10 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import io.ktor.client.statement.bodyAsText
+import io.ktor.http.isSuccess
+
+import io.ktor.client.request.header
 
 class ApiService(private val httpClient: HttpClient) {
     suspend fun login(mobileNumber: String): LoginResponseDto {
@@ -43,5 +47,18 @@ class ApiService(private val httpClient: HttpClient) {
             contentType(ContentType.Application.Json)
             setBody(request)
         }.body()
+    }
+
+    suspend fun askGemini(request: com.msme.plus.shared.data.model.advisor.GeminiRequestDto): com.msme.plus.shared.data.model.advisor.GeminiResponseDto {
+        val endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent"
+        val response = httpClient.post(endpoint) {
+            contentType(ContentType.Application.Json)
+            header("X-goog-api-key", ApiConstant.GEMINI_API_KEY)
+            setBody(request)
+        }
+        if (!response.status.isSuccess()) {
+            throw Exception("Gemini API Error: ${response.bodyAsText()}")
+        }
+        return response.body()
     }
 }
