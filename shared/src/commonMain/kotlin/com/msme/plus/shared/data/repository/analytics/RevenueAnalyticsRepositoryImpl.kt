@@ -5,6 +5,7 @@ import com.msme.plus.shared.domain.model.analytics.RevenueAnalyticsData
 import com.msme.plus.shared.domain.repository.analytics.RevenueAnalyticsRepository
 import kotlinx.coroutines.delay
 
+import com.msme.plus.shared.core.network.Resource
 import com.msme.plus.shared.core.network.safeApiCall
 import com.msme.plus.shared.core.storage.SettingsManager
 import com.msme.plus.shared.data.mapper.toDomain
@@ -19,8 +20,8 @@ class RevenueAnalyticsRepositoryImpl(
 ) : RevenueAnalyticsRepository {
     private val json = Json { ignoreUnknownKeys = true }
 
-    override suspend fun getRevenueAnalytics(): Result<RevenueAnalyticsData> {
-        return try {
+    override suspend fun getRevenueAnalytics(): Resource<RevenueAnalyticsData> {
+        return safeApiCall {
             // --- OLD MOCK CALL (kept commented out as requested) ---
             /*
             delay(1500)
@@ -28,7 +29,7 @@ class RevenueAnalyticsRepositoryImpl(
                 RevenueAnalyticsResponseDto.serializer(),
                 RevenueAnalyticsMockData.REVENUE_ANALYTICS_JSON
             )
-            Result.success(responseDto.data.toDomain())
+            responseDto.data.toDomain()
             */
             
             // --- REAL API CALL ---
@@ -40,9 +41,7 @@ class RevenueAnalyticsRepositoryImpl(
                 throw Exception(response.message)
             }
             
-            Result.success(response.data.toDomain())
-        } catch (e: Exception) {
-            Result.failure(e)
+            response.data.toDomain()
         }
     }
 }

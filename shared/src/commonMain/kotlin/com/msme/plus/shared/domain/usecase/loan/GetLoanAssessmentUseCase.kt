@@ -1,5 +1,6 @@
 package com.msme.plus.shared.domain.usecase.loan
 
+import com.msme.plus.shared.core.network.Resource
 import com.msme.plus.shared.domain.model.loan.AssessmentResult
 import com.msme.plus.shared.domain.repository.loan.LoanAssessmentRepository
 
@@ -11,7 +12,7 @@ class GetLoanAssessmentUseCase(
         loanPurpose: String,
         businessAge: String,
         wcRequirement: String
-    ): Result<AssessmentResult> {
+    ): Resource<AssessmentResult> {
         return repository.getAssessment(requestedLoan, loanPurpose, businessAge, wcRequirement)
     }
 }

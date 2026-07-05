@@ -1,5 +1,6 @@
 package com.msme.plus.shared.data.model.analytics
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -32,7 +33,15 @@ data class TrendPointDto(val month: String, val value: Float)
 data class CashFlowMonthDto(val month: String, val inflow: Float, val outflow: Float)
 
 @Serializable
-data class GstMonthDto(val month: String, val value: String, val percentage: Float)
+data class GstMonthDto(
+    val month: String, 
+    @SerialName("taxableValue") val value: String, 
+    @SerialName("progress") val percentage: Float
+)
 
 @Serializable
-data class CostCenterDto(val name: String, val percentage: Int, val iconName: String)
+data class CostCenterDto(
+    val name: String, 
+    val percentage: Int, 
+    @SerialName("icon") val iconName: String
+)

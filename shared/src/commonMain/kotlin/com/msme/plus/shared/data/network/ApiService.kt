@@ -37,4 +37,11 @@ class ApiService(private val httpClient: HttpClient) {
             contentType(ContentType.Application.Json)
         }.body()
     }
+
+    suspend fun assessLoan(request: com.msme.plus.shared.data.model.loan.LoanAssessmentRequestDto): com.msme.plus.shared.data.model.loan.LoanAssessmentResponseDto {
+        return httpClient.post("${ApiConstant.BASE_URL}/api/v1/msmes/loanAssessment") {
+            contentType(ContentType.Application.Json)
+            setBody(request)
+        }.body()
+    }
 }

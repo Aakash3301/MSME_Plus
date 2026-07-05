@@ -1,5 +1,6 @@
 package com.msme.plus.shared.features.analytics
 
+import com.msme.plus.shared.core.network.Resource
 import com.msme.plus.shared.core.redux.Store
 import com.msme.plus.shared.domain.usecase.analytics.GetRevenueAnalyticsUseCase
 
@@ -20,10 +21,11 @@ class RevenueAnalyticsViewModel(
         when (action) {
             RevenueAnalyticsAction.LoadData -> {
                 dispatch(RevenueAnalyticsResult.Loading)
-                getRevenueAnalyticsUseCase().fold(
-                    onSuccess = { dispatch(RevenueAnalyticsResult.Success(it)) },
-                    onFailure = { dispatch(RevenueAnalyticsResult.Error(it.message ?: "Unknown Error")) }
-                )
+                when (val resource = getRevenueAnalyticsUseCase()) {
+                    is Resource.Success -> dispatch(RevenueAnalyticsResult.Success(resource.data))
+                    is Resource.Error -> dispatch(RevenueAnalyticsResult.Error(resource.message ?: "Unknown Error"))
+                    is Resource.Loading -> {}
+                }
             }
             RevenueAnalyticsAction.NavigateBack -> {
                 emitEffect(RevenueAnalyticsEffect.NavigateBack)

@@ -41,19 +41,20 @@ class LoanAssessmentViewModel(
             }
             is LoanAssessmentAction.PerformEligibilityCheck -> {
                 dispatch(LoanAssessmentResult.AssessmentLoading)
-                getLoanAssessmentUseCase(
+                when (val resource = getLoanAssessmentUseCase(
                     requestedLoan = action.requestedLoan,
                     loanPurpose = action.loanPurpose,
                     businessAge = action.businessAge,
                     wcRequirement = action.wcRequirement
-                ).fold(
-                    onSuccess = { result ->
-                        dispatch(LoanAssessmentResult.AssessmentSuccess(result))
-                    },
-                    onFailure = { error ->
-                        dispatch(LoanAssessmentResult.AssessmentError(error.message ?: "An error occurred"))
+                )) {
+                    is com.msme.plus.shared.core.network.Resource.Success -> {
+                        dispatch(LoanAssessmentResult.AssessmentSuccess(resource.data))
                     }
-                )
+                    is com.msme.plus.shared.core.network.Resource.Error -> {
+                        dispatch(LoanAssessmentResult.AssessmentError(resource.message ?: "An error occurred"))
+                    }
+                    is com.msme.plus.shared.core.network.Resource.Loading -> {}
+                }
             }
             is LoanAssessmentAction.NavigateBack -> {
                 emitEffect(LoanAssessmentEffect.NavigateBack)
