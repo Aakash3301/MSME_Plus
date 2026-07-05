@@ -43,11 +43,30 @@ import com.msme.plus.shared.domain.usecase.profile.GetBusinessProfileUseCase
 import com.msme.plus.shared.features.profile.BusinessProfileViewModel
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
+import com.msme.plus.shared.data.network.ApiService
 
 val sharedModule = module {
+    // Network
+    single {
+        HttpClient {
+            install(ContentNegotiation) {
+                json(Json {
+                    ignoreUnknownKeys = true
+                    isLenient = true
+                    encodeDefaults = true
+                })
+            }
+        }
+    }
+    single { ApiService(get()) }
+
     // Singletons for Repositories and Network clients
     single { SettingsManager() }
-    single<AuthRepository> { AuthRepositoryImpl(get()) }
+    single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
     single<DashboardRepository> { DashboardRepositoryImpl() }
     single<FinancialHealthRepository> { FinancialHealthRepositoryImpl() }
     single<LoanAssessmentRepository> { LoanAssessmentRepositoryImpl() }

@@ -8,6 +8,7 @@ class SettingsManager {
 
     companion object {
         private const val KEY_ACCESS_TOKEN = "access_token"
+        private const val KEY_MSME_PROFILE = "msme_profile"
     }
 
     fun saveToken(token: String) {
@@ -18,7 +19,16 @@ class SettingsManager {
         return settings.getStringOrNull(KEY_ACCESS_TOKEN)
     }
 
+    fun saveMsmeProfile(profileJson: String) {
+        settings[KEY_MSME_PROFILE] = profileJson
+    }
+
+    fun getMsmeProfile(): String? {
+        return settings.getStringOrNull(KEY_MSME_PROFILE)
+    }
+
     fun clearToken() {
         settings.remove(KEY_ACCESS_TOKEN)
+        settings.remove(KEY_MSME_PROFILE)
     }
 }

@@ -3,6 +3,8 @@ package com.msme.plus.shared.data.mock
 object DashboardMockData {
     val DASHBOARD_JSON = """
         {
+        
+        "data":{
           "companyName": "ABC Manufacturing",
           "sector": "Manufacturing Sector",
           "hasNotifications": true,
@@ -88,6 +90,7 @@ object DashboardMockData {
               "title": "Business\nDocuments"
             }
           ]
+        }
         }
     """.trimIndent()
 }
