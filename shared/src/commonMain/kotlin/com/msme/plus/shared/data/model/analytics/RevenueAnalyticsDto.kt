@@ -5,9 +5,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RevenueAnalyticsResponseDto(
-    val statusCode: Int,
-    val message: String,
-    val data: RevenueAnalyticsDto
+    val statusCode: Int = 200,
+    val message: String = "",
+    val data: RevenueAnalyticsDto = RevenueAnalyticsDto()
 )
 
 @Serializable
@@ -27,21 +27,21 @@ data class RevenueAnalyticsDto(
 )
 
 @Serializable
-data class TrendPointDto(val month: String, val value: Float)
+data class TrendPointDto(val month: String = "", val value: Float = 0f)
 
 @Serializable
-data class CashFlowMonthDto(val month: String, val inflow: Float, val outflow: Float)
+data class CashFlowMonthDto(val month: String = "", val inflow: Float = 0f, val outflow: Float = 0f)
 
 @Serializable
 data class GstMonthDto(
-    val month: String, 
-    @SerialName("taxableValue") val value: String, 
-    @SerialName("progress") val percentage: Float
+    val month: String = "", 
+    @SerialName("taxableValue") val value: String = "", 
+    @SerialName("progress") val percentage: Float = 0f
 )
 
 @Serializable
 data class CostCenterDto(
-    val name: String, 
-    val percentage: Int, 
-    @SerialName("icon") val iconName: String
+    val name: String = "", 
+    val percentage: Int = 0, 
+    @SerialName("icon") val iconName: String = ""
 )
