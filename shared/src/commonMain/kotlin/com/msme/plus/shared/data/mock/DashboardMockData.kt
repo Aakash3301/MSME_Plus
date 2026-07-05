@@ -3,7 +3,8 @@ package com.msme.plus.shared.data.mock
 object DashboardMockData {
     val DASHBOARD_JSON = """
         {
-        
+         "statusCode": 200,
+          "message": "DashBoard successful",
         "data":{
           "companyName": "ABC Manufacturing",
           "sector": "Manufacturing Sector",
