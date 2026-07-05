@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DashboardResponseDto(
-    val statusCode: Int,
-    val message: String,
-    val data: DashboardDto
+    val statusCode: Int? = null,
+    val message: String? = null,
+    val data: DashboardDto? = null
 )

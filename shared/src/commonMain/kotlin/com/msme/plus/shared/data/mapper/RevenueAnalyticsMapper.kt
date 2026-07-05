@@ -13,22 +13,22 @@ import com.msme.plus.shared.domain.model.analytics.TrendPoint
 
 fun RevenueAnalyticsDto.toDomain(): RevenueAnalyticsData {
     return RevenueAnalyticsData(
-        aiInsights = aiInsights,
-        totalRevenue = totalRevenue,
-        revenueGrowth = revenueGrowth,
-        netCashFlow = netCashFlow,
-        gstTurnover = gstTurnover,
-        revenueTrend = revenueTrend.map { it.toDomain() },
-        cashFlows = cashFlows.map { it.toDomain() },
-        gstTaxableValues = gstTaxableValues.map { it.toDomain() },
-        digitalAdoptionPercentage = digitalAdoptionPercentage,
-        costCenters = costCenters.map { it.toDomain() },
-        dsoDays = dsoDays,
-        dsoTrend = dsoTrend
+        aiInsights = aiInsights ?: emptyList(),
+        totalRevenue = totalRevenue ?: "",
+        revenueGrowth = revenueGrowth ?: "",
+        netCashFlow = netCashFlow ?: "",
+        gstTurnover = gstTurnover ?: "",
+        revenueTrend = revenueTrend?.map { it.toDomain() } ?: emptyList(),
+        cashFlows = cashFlows?.map { it.toDomain() } ?: emptyList(),
+        gstTaxableValues = gstTaxableValues?.map { it.toDomain() } ?: emptyList(),
+        digitalAdoptionPercentage = digitalAdoptionPercentage ?: 0,
+        costCenters = costCenters?.map { it.toDomain() } ?: emptyList(),
+        dsoDays = dsoDays ?: 0,
+        dsoTrend = dsoTrend ?: ""
     )
 }
 
-fun TrendPointDto.toDomain() = TrendPoint(month, value)
-fun CashFlowMonthDto.toDomain() = CashFlowMonth(month, inflow, outflow)
-fun GstMonthDto.toDomain() = GstMonth(month, value, percentage)
-fun CostCenterDto.toDomain() = CostCenter(name, percentage, iconName)
+fun TrendPointDto.toDomain() = TrendPoint(month ?: "", value ?: 0f)
+fun CashFlowMonthDto.toDomain() = CashFlowMonth(month ?: "", inflow ?: 0f, outflow ?: 0f)
+fun GstMonthDto.toDomain() = GstMonth(month ?: "", value ?: "", percentage ?: 0f)
+fun CostCenterDto.toDomain() = CostCenter(name ?: "", percentage ?: 0, iconName ?: "")

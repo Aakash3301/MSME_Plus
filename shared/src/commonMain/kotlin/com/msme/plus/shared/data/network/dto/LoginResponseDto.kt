@@ -5,30 +5,30 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class LoginRequestDto(
-    val mobileNumber: String
+    val mobileNumber: String? = null
 )
 
 @Serializable
 data class LoginResponseDto(
-    val statusCode: Int,
-    val message: String,
+    val statusCode: Int? = null,
+    val message: String? = null,
     val data: LoginResponseData? = null
 )
 
 @Serializable
 data class LoginResponseData(
-    val token: AuthToken,
-    val msme: MsmeProfileDto,
-    val valid: Boolean
+    val token: AuthToken? = null,
+    val msme: MsmeProfileDto? = null,
+    val valid: Boolean? = null
 )
 
 @Serializable
 data class MsmeProfileDto(
-    val id: String,
-    val businessName: String,
-    val pan: String,
-    val gstNumber: String,
-    val industryType: String,
-    val mobileNumber: String,
-    val createdAt: String
+    val id: String? = null,
+    val businessName: String? = null,
+    val pan: String? = null,
+    val gstNumber: String? = null,
+    val industryType: String? = null,
+    val mobileNumber: String? = null,
+    val createdAt: String? = null
 )

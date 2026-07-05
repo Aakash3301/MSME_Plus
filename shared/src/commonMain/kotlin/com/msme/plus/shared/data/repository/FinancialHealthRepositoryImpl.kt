@@ -41,8 +41,8 @@ class FinancialHealthRepositoryImpl(
             if (response.statusCode != 200) {
                 throw Exception(response.message)
             }
-            
-            response.data.toDomain()
+            val data = response.data ?: com.msme.plus.shared.data.model.health.FinancialHealthDto()
+            data.toDomain()
         }
     }
 }

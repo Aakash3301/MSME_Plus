@@ -54,8 +54,8 @@ class LoanAssessmentRepositoryImpl(
             if (response.statusCode != 200) {
                 throw Exception(response.message)
             }
-            
-            response.data.toDomain()
+            val data = response.data ?: com.msme.plus.shared.data.model.loan.AssessmentResultDto()
+            data.toDomain()
         }
     }
 }

@@ -39,7 +39,8 @@ class DashboardRepositoryImpl(
                 throw Exception(response.message)
             }
             
-            response.data.toDomain()
+            val data = response.data ?: DashboardDto()
+            data.toDomain()
         }
     }
 }

@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class FinancialHealthResponseDto(
-    val statusCode: Int,
-    val message: String,
-    val data: FinancialHealthDto
+    val statusCode: Int? = null,
+    val message: String? = null,
+    val data: FinancialHealthDto? = null
 )

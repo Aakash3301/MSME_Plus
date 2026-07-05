@@ -5,43 +5,43 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RevenueAnalyticsResponseDto(
-    val statusCode: Int = 200,
-    val message: String = "",
-    val data: RevenueAnalyticsDto = RevenueAnalyticsDto()
+    val statusCode: Int? = null,
+    val message: String? = null,
+    val data: RevenueAnalyticsDto? = null
 )
 
 @Serializable
 data class RevenueAnalyticsDto(
-    val aiInsights: List<String> = emptyList(),
-    val totalRevenue: String = "",
-    val revenueGrowth: String = "",
-    val netCashFlow: String = "",
-    val gstTurnover: String = "",
-    val revenueTrend: List<TrendPointDto> = emptyList(),
-    val cashFlows: List<CashFlowMonthDto> = emptyList(),
-    val gstTaxableValues: List<GstMonthDto> = emptyList(),
-    val digitalAdoptionPercentage: Int = 0,
-    val costCenters: List<CostCenterDto> = emptyList(),
-    val dsoDays: Int = 0,
-    val dsoTrend: String = ""
+    val aiInsights: List<String>? = null,
+    val totalRevenue: String? = null,
+    val revenueGrowth: String? = null,
+    val netCashFlow: String? = null,
+    val gstTurnover: String? = null,
+    val revenueTrend: List<TrendPointDto>? = null,
+    val cashFlows: List<CashFlowMonthDto>? = null,
+    val gstTaxableValues: List<GstMonthDto>? = null,
+    val digitalAdoptionPercentage: Int? = null,
+    val costCenters: List<CostCenterDto>? = null,
+    val dsoDays: Int? = null,
+    val dsoTrend: String? = null
 )
 
 @Serializable
-data class TrendPointDto(val month: String = "", val value: Float = 0f)
+data class TrendPointDto(val month: String? = null, val value: Float? = null)
 
 @Serializable
-data class CashFlowMonthDto(val month: String = "", val inflow: Float = 0f, val outflow: Float = 0f)
+data class CashFlowMonthDto(val month: String? = null, val inflow: Float? = null, val outflow: Float? = null)
 
 @Serializable
 data class GstMonthDto(
-    val month: String = "", 
-    @SerialName("taxableValue") val value: String = "", 
-    @SerialName("progress") val percentage: Float = 0f
+    val month: String? = null, 
+    @SerialName("taxableValue") val value: String? = null, 
+    @SerialName("progress") val percentage: Float? = null
 )
 
 @Serializable
 data class CostCenterDto(
-    val name: String = "", 
-    val percentage: Int = 0, 
-    @SerialName("icon") val iconName: String = ""
+    val name: String? = null, 
+    val percentage: Int? = null, 
+    @SerialName("icon") val iconName: String? = null
 )

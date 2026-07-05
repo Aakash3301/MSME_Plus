@@ -62,17 +62,17 @@ class AuthRepositoryImpl(
             )
             val data = mockResponse.data!!
             val msmeProfile = MsmeProfile(
-                id = data.msme.id,
-                businessName = data.msme.businessName,
-                pan = data.msme.pan,
-                gstNumber = data.msme.gstNumber,
-                industryType = data.msme.industryType,
-                mobileNumber = data.msme.mobileNumber,
-                createdAt = data.msme.createdAt
+                id = data.msme?.id ?: "",
+                businessName = data.msme?.businessName ?: "",
+                pan = data.msme?.pan ?: "",
+                gstNumber = data.msme?.gstNumber ?: "",
+                industryType = data.msme?.industryType ?: "",
+                mobileNumber = data.msme?.mobileNumber ?: "",
+                createdAt = data.msme?.createdAt ?: ""
             )
             val session = UserSession(
-                isValid = data.valid,
-                token = data.token,
+                isValid = data.valid ?: false,
+                token = data.token ?: com.msme.plus.shared.domain.models.AuthToken("", "", 0),
                 msme = msmeProfile
             )
             session.token.accessToken.let { settingsManager.saveToken(it) }
@@ -91,18 +91,18 @@ class AuthRepositoryImpl(
             
             // Map DTO to Domain Model
             val msmeProfile = MsmeProfile(
-                id = data.msme.id,
-                businessName = data.msme.businessName,
-                pan = data.msme.pan,
-                gstNumber = data.msme.gstNumber,
-                industryType = data.msme.industryType,
-                mobileNumber = data.msme.mobileNumber,
-                createdAt = data.msme.createdAt
+                id = data.msme?.id ?: "",
+                businessName = data.msme?.businessName ?: "",
+                pan = data.msme?.pan ?: "",
+                gstNumber = data.msme?.gstNumber ?: "",
+                industryType = data.msme?.industryType ?: "",
+                mobileNumber = data.msme?.mobileNumber ?: "",
+                createdAt = data.msme?.createdAt ?: ""
             )
 
             val session = UserSession(
-                isValid = data.valid,
-                token = data.token,
+                isValid = data.valid ?: false,
+                token = data.token ?: com.msme.plus.shared.domain.models.AuthToken("", "", 0),
                 msme = msmeProfile
             )
             

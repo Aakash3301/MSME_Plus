@@ -12,49 +12,49 @@ import com.msme.plus.shared.domain.model.health.ScoreBreakdown
 
 fun FinancialHealthDto.toDomain(): FinancialHealthData {
     return FinancialHealthData(
-        companyName = companyName,
-        profileImageUrl = profileImageUrl,
-        overallScore = overallScore,
-        maxScore = maxScore,
-        statusText = statusText,
-        badges = badges.map { it.toDomain() },
-        scoreBreakdowns = scoreBreakdowns.map { it.toDomain() },
-        strengths = strengths,
-        risks = risks,
+        companyName = companyName ?: "",
+        profileImageUrl = profileImageUrl ?: "",
+        overallScore = overallScore ?: 0,
+        maxScore = maxScore ?: 100,
+        statusText = statusText ?: "",
+        badges = badges?.map { it.toDomain() } ?: emptyList(),
+        scoreBreakdowns = scoreBreakdowns?.map { it.toDomain() } ?: emptyList(),
+        strengths = strengths ?: emptyList(),
+        risks = risks ?: emptyList(),
         loanOffer = loanOffer?.toDomain()
     )
 }
 
 fun HealthBadgeDto.toDomain(): HealthBadge {
     val parsedType = try {
-        BadgeType.valueOf(type)
+        BadgeType.valueOf(type ?: "")
     } catch (e: Exception) {
         BadgeType.PRIMARY
     }
     return HealthBadge(
-        text = text,
-        icon = icon,
+        text = text ?: "",
+        icon = icon ?: "",
         type = parsedType
     )
 }
 
 fun ScoreBreakdownDto.toDomain(): ScoreBreakdown {
     val parsedType = try {
-        BadgeType.valueOf(color)
+        BadgeType.valueOf(color ?: "")
     } catch (e: Exception) {
         BadgeType.PRIMARY
     }
     return ScoreBreakdown(
-        label = label,
-        value = value,
+        label = label ?: "",
+        value = value ?: 0,
         color = parsedType
     )
 }
 
 fun LoanOfferDto.toDomain(): LoanOffer {
     return LoanOffer(
-        title = title,
-        description = description,
-        buttonText = buttonText
+        title = title ?: "",
+        description = description ?: "",
+        buttonText = buttonText ?: ""
     )
 }

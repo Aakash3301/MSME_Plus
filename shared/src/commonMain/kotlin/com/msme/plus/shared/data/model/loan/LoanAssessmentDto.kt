@@ -13,7 +13,7 @@ data class LoanAssessmentRequestDto(
 
 @Serializable
 data class LoanAssessmentResponseDto(
-    val statusCode: Int,
-    val message: String,
-    val data: AssessmentResultDto
+    val statusCode: Int? = null,
+    val message: String? = null,
+    val data: AssessmentResultDto? = null
 )
