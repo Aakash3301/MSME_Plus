@@ -1,4 +1,7 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
+import java.io.FileInputStream
+import java.io.File
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -6,7 +9,37 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
 }
 
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(FileInputStream(localPropertiesFile))
+}
+val geminiApiKey = localProperties.getProperty("GEMINI_API_KEY") ?: ""
+
+val generateBuildConfigTask = tasks.register("generateBuildConfig") {
+    val apiKey = geminiApiKey
+    val outputDir = layout.buildDirectory.dir("generated/source/buildConfig/commonMain/kotlin")
+    outputs.dir(outputDir)
+    doLast {
+        val file = File(outputDir.get().asFile, "com/msme/plus/shared/core/network/BuildEnv.kt")
+        file.parentFile.mkdirs()
+        file.writeText("""
+            package com.msme.plus.shared.core.network
+            
+            object BuildEnv {
+                const val GEMINI_API_KEY = "$apiKey"
+            }
+        """.trimIndent())
+    }
+}
+
 kotlin {
+    sourceSets {
+        commonMain {
+            kotlin.srcDir(generateBuildConfigTask.map { it.outputs.files.singleFile })
+        }
+    }
+    
     listOf(
         iosArm64(),
         iosSimulatorArm64()
