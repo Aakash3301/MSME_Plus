@@ -6,6 +6,10 @@ import com.msme.plus.shared.data.model.advisor.GeminiCandidateDto
 import com.msme.plus.shared.data.model.advisor.GeminiContentDto
 import com.msme.plus.shared.data.model.advisor.GeminiPartDto
 import com.msme.plus.shared.data.model.advisor.GeminiRequestDto
+import com.msme.plus.shared.data.model.analytics.RevenueAnalyticsDto
+import com.msme.plus.shared.data.model.analytics.RevenueAnalyticsResponseDto
+import com.msme.plus.shared.data.model.health.FinancialHealthDto
+import com.msme.plus.shared.data.model.health.FinancialHealthResponseDto
 import com.msme.plus.shared.data.network.ApiService
 import com.msme.plus.shared.domain.model.advisor.ChatMessage
 import com.msme.plus.shared.domain.model.advisor.MessageSender
@@ -24,10 +28,14 @@ class AiAdvisorRepositoryImpl(
     private val json = Json { ignoreUnknownKeys = true }
     private var cachedSystemContext: String? = null
 
+    private var  healthRes : FinancialHealthDto?=null
+    private var  analyticsRes: RevenueAnalyticsDto ?= null
+    private var msme: MsmeProfile ?= null
+
     private val chatHistory = mutableListOf<ChatMessage>(
         ChatMessage(
             id = "1",
-            text = "Hello! I'm your IDBI Business Advisor. I have analyzed your profile. How can I help you optimize your financial health today?",
+            text = "Hello! I'm your Ai Business Advisor. I have analyzed your profile. How can I help you optimize your financial health today?",
             sender = MessageSender.AI,
             timestamp = "Just Now"
         )
@@ -48,26 +56,52 @@ class AiAdvisorRepositoryImpl(
     }
 
     private suspend fun ensureContextLoaded() {
-        if (cachedSystemContext != null) return
+        if (analyticsRes != null) return
         
         val msmeJson = settingsManager.getMsmeProfile() ?: throw Exception("Profile not found")
-        val msme = json.decodeFromString<MsmeProfile>(msmeJson)
+         msme = json.decodeFromString<MsmeProfile>(msmeJson)
         
-        val healthRes = apiService.getFinancialHealth(msme.id).data
-        val analyticsRes = apiService.getRevenueAnalytics(msme.id).data
-        
+         healthRes = apiService.getFinancialHealth(msme!!.id).data
+         analyticsRes = apiService.getRevenueAnalytics(msme!!.id).data
+
+    }
+
+    private fun contextBuilder(userQuestion: String): String {
+        // 1. Format lists properly for the LLM to read easily
+        val risksFormatted = healthRes?.risks?.takeIf { it.isNotEmpty() }
+            ?.joinToString("\n- ")?.let { "- $it" } ?: "- None identified currently."
+
+        val insightsFormatted = analyticsRes?.aiInsights?.takeIf { it.isNotEmpty() }
+            ?.joinToString("\n- ")?.let { "- $it" } ?: "- No specific insights available."
+
+        // 2. Build the structured prompt using Markdown formatting
         cachedSystemContext = """
-            You are a highly intelligent financial advisor for an MSME named '${msme.businessName}'.
-            Here is their current financial data:
-            - Overall Health Score: ${healthRes?.overallScore ?: "Unknown"} / 100
-            - GST Turnover: ${analyticsRes?.gstTurnover ?: "Unknown"}
-            - Total Revenue: ${analyticsRes?.totalRevenue ?: "Unknown"}
-            - DSO (Days Sales Outstanding): ${analyticsRes?.dsoDays ?: "Unknown"} days
-            - Weaknesses/Risks: ${healthRes?.risks?.joinToString() ?: "None"}
-            - AI Insights: ${analyticsRes?.aiInsights?.joinToString() ?: "None"}
-            
-            Based on this specific data, answer the user's question concisely, professionally, and provide actionable advice. Do not mention that you were given JSON data, just act as if you know their business intimately.
-        """.trimIndent()
+        You are an elite, proactive Financial Advisor and Fractional CFO for an MSME named '${msme?.businessName ?: "this business"}'. 
+        You know their operations and financial state intimately. Never mention that you are an AI or that you were fed this data via JSON or code.
+
+        ### CURRENT FINANCIAL CONTEXT
+        - Overall Health Score: ${healthRes?.overallScore ?: "Unknown"} / 100
+        - GST Turnover: ${analyticsRes?.gstTurnover ?: "Unknown"}
+        - Total Revenue: ${analyticsRes?.totalRevenue ?: "Unknown"}
+        - DSO (Days Sales Outstanding): ${analyticsRes?.dsoDays ?: "Unknown"} days
+
+        ### IDENTIFIED RISKS & WEAKNESSES
+        $risksFormatted
+
+        ### STRATEGIC INSIGHTS
+        $insightsFormatted
+
+        ### RESPONSE GUIDELINES
+        1. Tone: Professional, pragmatic, and highly analytical.
+        2. Actionability: Always provide concrete, practical next steps the MSME can take today.
+        3. Grounding: Base your advice strictly on the financial metrics provided above. If DSO is high, address cash flow. If health is low, prioritize stabilization.
+        4. Formatting: Use Markdown (bolding, bullet points) to make your response highly scannable for a busy business owner. Be concise.
+
+        ### USER QUESTION
+        $userQuestion
+    """.trimIndent()
+
+        return cachedSystemContext!!
     }
 
     override fun sendMessage(message: String): Flow<Resource<ChatMessage>> = flow {
@@ -83,6 +117,7 @@ class AiAdvisorRepositoryImpl(
         try {
             // Ensure context is loaded (it usually is pre-loaded in getChatHistory)
             ensureContextLoaded()
+            cachedSystemContext = contextBuilder(message)
             val systemContext = cachedSystemContext ?: "You are a highly intelligent financial advisor for an MSME."
 
             // Build chat history for Gemini

@@ -96,9 +96,7 @@ fun BusinessProfileContent(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = {
-                    /* Drawer Open (MVP No-op) */ }
-                    ) {
+                    IconButton(onClick = { onIntent(BusinessProfileIntent.NavigateBack) }) {
                         Icon(
                             painter = painterResource(id = com.msme.plus.R.drawable.arrow_back_24),
                             contentDescription = "Back",

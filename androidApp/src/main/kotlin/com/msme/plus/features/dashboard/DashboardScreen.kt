@@ -527,8 +527,8 @@ class DashboardPreviewProvider : PreviewParameterProvider<DashboardData> {
             ),
             quickActions = listOf(
                 QuickAction("health_card", "health_metrics", "Financial\nHealth Card"),
-                QuickAction("revenue_analytics", "analytics", "Revenue\nAnalytics"),
                 QuickAction("ai_advisor", "smart_toy", "AI\nAdvisor"),
+                QuickAction("revenue_analytics", "analytics", "Revenue\nAnalytics"),
                 QuickAction("loan_assessment", "account_balance", "Loan\nAssessment"),
                 QuickAction("business_documents", "description", "Business\nDocuments")
             )
