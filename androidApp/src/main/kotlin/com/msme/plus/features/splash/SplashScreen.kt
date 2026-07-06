@@ -48,7 +48,7 @@ fun SplashScreen(
 
     LaunchedEffect(Unit) {
         // Automatically check token after a short visual delay
-        kotlinx.coroutines.delay(2000)
+        kotlinx.coroutines.delay(400)
         viewModel.sendIntent(SplashIntent.CheckAuthStatus)
     }
 

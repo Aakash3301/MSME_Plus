@@ -47,12 +47,11 @@ class AiAdvisorRepositoryImpl(
         // Prefetch context on screen load so it's ready when the user sends a message
         try {
             ensureContextLoaded()
+            delay(500)
+            emit(Resource.Success(chatHistory.toList()))
         } catch (e: Exception) {
-            // Ignore prefetch errors, we will try again when they send a message
+            emit(Resource.Error(e, "Something went wrong. Please try again later due to server error."))
         }
-        
-        delay(500)
-        emit(Resource.Success(chatHistory.toList()))
     }
 
     private suspend fun ensureContextLoaded() {

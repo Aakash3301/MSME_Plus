@@ -21,7 +21,7 @@ class AuthRepositoryImpl(
 
     override suspend fun checkTokenValidity(): Resource<UserSession> {
         return safeApiCall {
-            delay(1500)
+           delay(300)
             
             val localToken = settingsManager.getToken()
             if (localToken != null) {

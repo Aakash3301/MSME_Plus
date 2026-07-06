@@ -137,10 +137,10 @@ private fun RecommendationsTopBar(onNavigateBack: () -> Unit) {
         },
         actions = {
             IconButton(onClick = { /* No-op for MVP */ }) {
-                Text(
-                    text = "🔔",
-                    fontSize = 20.sp
-                )
+//                Text(
+//                    text = "🔔",
+//                    fontSize = 20.sp
+//                )
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -171,14 +171,13 @@ private fun RecommendationsHeader() {
 
 @Composable
 private fun ProgressSummaryBento(potentialGrowth: Int) {
-    Row(
+    Column (
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
         // Left Box: Potential Growth
         Column(
-            modifier = Modifier
-                .weight(1f)
+            modifier = Modifier.fillMaxWidth().wrapContentHeight()
                 .background(
                     color = IdbiPrimaryContainer.copy(alpha = 0.05f),
                     shape = RoundedCornerShape(12.dp)
@@ -237,10 +236,8 @@ private fun ProgressSummaryBento(potentialGrowth: Int) {
             }
         }
 
-        // Right Box: Analysis Status
         Column(
             modifier = Modifier
-                .weight(1f)
                 .background(
                     color = IdbiTertiaryContainer.copy(alpha = 0.05f),
                     shape = RoundedCornerShape(12.dp)

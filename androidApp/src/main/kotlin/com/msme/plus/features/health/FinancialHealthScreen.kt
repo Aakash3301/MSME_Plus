@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -23,6 +24,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,6 +39,7 @@ import com.msme.plus.shared.features.health.FinancialHealthIntent
 import com.msme.plus.shared.features.health.FinancialHealthViewModel
 import com.msme.plus.ui.theme.*
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import com.msme.plus.shared.features.profile.BusinessProfileIntent
 import com.msme.plus.ui.components.shimmerEffect
 
 
@@ -136,14 +139,16 @@ private fun TopAppBar(data: FinancialHealthData, onIntent: (FinancialHealthInten
         verticalAlignment = Alignment.CenterVertically
     ) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-//            Text(
-//                text = "←",
-//                color = IdbiOnPrimary,
-//                fontSize = 24.sp,
-//                modifier = Modifier.clickable { onIntent(FinancialHealthIntent.BackClicked) }
-//            )
+            IconButton(onClick = { onIntent(FinancialHealthIntent.BackClicked) }) {
+                Icon(
+                    painter = painterResource(id = com.msme.plus.R.drawable.arrow_back_24),
+                    contentDescription = "Back",
+                    tint = Color.Unspecified
+
+                )
+            }
             Text(
-                text = "IDBI MSME Financial Health Card",
+                text = "MSME Financial Health Card",
                 color = IdbiOnPrimary,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold

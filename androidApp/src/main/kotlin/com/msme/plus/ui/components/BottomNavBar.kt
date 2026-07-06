@@ -104,7 +104,7 @@ private fun BottomNavItem(
             text = when(iconRes) {
                 "dashboard" -> "⊞"
                 "analytics" -> "📈"
-                "psychology" -> "🧠"
+                "psychology" -> "🤖"
                 "account_balance_wallet" -> "💳"
                 "person" -> "👤"
                 else -> "•"

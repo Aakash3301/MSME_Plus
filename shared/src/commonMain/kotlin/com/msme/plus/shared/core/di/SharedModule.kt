@@ -60,6 +60,11 @@ val sharedModule = module {
                     encodeDefaults = true
                 })
             }
+            install(io.ktor.client.plugins.HttpTimeout) {
+                requestTimeoutMillis = 1*60*1000 // 3 minutes
+                connectTimeoutMillis = 1*60*1000
+                socketTimeoutMillis = 1*60*1000
+            }
         }
     }
     single { ApiService(get()) }

@@ -1,5 +1,6 @@
 package com.msme.plus.features.advisor
 
+import android.widget.Toast
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,8 +17,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -146,6 +150,34 @@ fun AiAdvisorContent(
             ) {
                 if (state.isLoading) {
                     AiAdvisorShimmer()
+                } else if (state.error != null) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(32.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "⚠️",
+                            fontSize = 48.sp,
+                            modifier = Modifier.padding(bottom = 16.dp)
+                        )
+                        Text(
+                            text = state.error!!,
+                            color = IdbiError,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                            modifier = Modifier.padding(bottom = 24.dp)
+                        )
+                        Button(
+                            onClick = { onIntent(AiAdvisorIntent.LoadHistory) },
+                            colors = ButtonDefaults.buttonColors(containerColor = IdbiPrimary)
+                        ) {
+                            Text("Try Again")
+                        }
+                    }
                 } else {
                     LazyColumn(
                         state = listState,
@@ -212,34 +244,33 @@ fun AiAdvisorContent(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        .padding(horizontal = 10.dp, vertical = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     // Chat Input Bar
                     Row(
                         modifier = Modifier
                             .weight(1f)
-                            .background(IdbiSurfaceContainerLow, CircleShape)
-                            .border(1.dp, IdbiOutlineVariant, CircleShape)
-                            .padding(horizontal = 4.dp, vertical = 4.dp),
+                            .background(IdbiSurfaceContainerLow, RoundedCornerShape(25))
+                            .border(1.dp, IdbiOutlineVariant, RoundedCornerShape(25))
+                            .padding(horizontal = 4.dp, vertical = 1.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .size(36.dp)
-                                .clip(CircleShape)
-                                .background(Color.Transparent)
-                                .clickable { /* Attach no-op for MVP */ },
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text("+", fontSize = 20.sp, color = IdbiOnSurfaceVariant)
-                        }
+//                        Box(
+//                            modifier = Modifier
+//                                .size(36.dp)
+//                                .clip(CircleShape)
+//                                .background(Color.Transparent)
+//                                .clickable { /* Attach no-op for MVP */ },
+//                            contentAlignment = Alignment.Center
+//                        ) {
+//
+//                        }
 
                         OutlinedTextField(
                             value = textInput,
                             onValueChange = { textInput = it },
-                            placeholder = { Text("Ask your advisor...", color = IdbiOnSurfaceVariant.copy(alpha = 0.6f), fontSize = 14.sp) },
+                            placeholder = { Text("Ask your advisor...", color = IdbiOnSurfaceVariant.copy(alpha = 0.6f), fontSize = 12.sp) },
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedContainerColor = Color.Transparent,
                                 unfocusedContainerColor = Color.Transparent,
@@ -249,41 +280,64 @@ fun AiAdvisorContent(
                                 focusedTextColor = IdbiOnSurface,
                                 unfocusedTextColor = IdbiOnSurface
                             ),
-                            maxLines = 3,
-                            modifier = Modifier.weight(1f).padding(horizontal = 4.dp),
-                            shape = CircleShape
+                            maxLines = 10,
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(horizontal = 1.dp),
+                            shape = RoundedCornerShape(20)
                         )
-
+                      val context =  LocalContext.current
                         Box(
                             modifier = Modifier
                                 .size(36.dp)
                                 .clip(CircleShape)
                                 .background(Color.Transparent)
-                                .clickable { /* Mic no-op for MVP */ },
+                                .clickable {
+                                    Toast.makeText(context, "Voice mode is not support for now ", Toast.LENGTH_SHORT).show()
+                                },
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(painter = painterResource(id = com.msme.plus.R.drawable.outline_mic_24),
                             contentDescription = "Back",
+                            modifier = Modifier.size(30.dp),
                             tint = Color.Unspecified)
+                        }
+                        // Send Button
+                        Box(
+                            modifier = Modifier
+                                .size(46.dp)
+                                .clip(CircleShape)
+                                .background(IdbiPrimary)
+                                .clickable {
+                                    if (textInput.isNotBlank()) {
+                                        onIntent(AiAdvisorIntent.SendMessage(textInput))
+                                        textInput = ""
+                                    }
+                                },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(painter = painterResource(id = com.msme.plus.R.drawable.outline_send_24),
+                                contentDescription = "Back",
+                                tint = Color.Unspecified)
                         }
                     }
 
-                    // Send Button
-                    Box(
-                        modifier = Modifier
-                            .size(44.dp)
-                            .clip(CircleShape)
-                            .background(IdbiPrimary)
-                            .clickable {
-                                if (textInput.isNotBlank()) {
-                                    onIntent(AiAdvisorIntent.SendMessage(textInput))
-                                    textInput = ""
-                                }
-                            },
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text("➔", color = Color.White, fontSize = 20.sp)
-                    }
+//                    // Send Button
+//                    Box(
+//                        modifier = Modifier
+//                            .size(44.dp)
+//                            .clip(CircleShape)
+//                            .background(IdbiPrimary)
+//                            .clickable {
+//                                if (textInput.isNotBlank()) {
+//                                    onIntent(AiAdvisorIntent.SendMessage(textInput))
+//                                    textInput = ""
+//                                }
+//                            },
+//                        contentAlignment = Alignment.Center
+//                    ) {
+//                        Text("➔", color = Color.White, fontSize = 20.sp)
+//                    }
                 }
             }
         }
@@ -314,7 +368,9 @@ fun ChatMessageBubble(message: ChatMessage) {
         
         Column(
             horizontalAlignment = if (isUser) Alignment.End else Alignment.Start,
-            modifier = Modifier.widthIn(max = 280.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 15.dp)
         ) {
             val bg = if (isUser) IdbiPrimary else IdbiSurfaceContainerHigh
             val textColor = if (isUser) Color.White else IdbiOnSurface
@@ -327,7 +383,7 @@ fun ChatMessageBubble(message: ChatMessage) {
             Box(
                 modifier = Modifier
                     .background(bg, shape)
-                    .padding(horizontal = 14.dp, vertical = 10.dp)
+                    .padding(horizontal = 8.dp, vertical = 8.dp)
             ) {
                 Text(
                     text = message.text,
@@ -419,9 +475,18 @@ fun TypingIndicatorBubble() {
                     label = "dot3"
                 )
 
-                Box(modifier = Modifier.size(6.dp).clip(CircleShape).background(IdbiOnSurface.copy(alpha = dot1)))
-                Box(modifier = Modifier.size(6.dp).clip(CircleShape).background(IdbiOnSurface.copy(alpha = dot2)))
-                Box(modifier = Modifier.size(6.dp).clip(CircleShape).background(IdbiOnSurface.copy(alpha = dot3)))
+                Box(modifier = Modifier
+                    .size(6.dp)
+                    .clip(CircleShape)
+                    .background(IdbiOnSurface.copy(alpha = dot1)))
+                Box(modifier = Modifier
+                    .size(6.dp)
+                    .clip(CircleShape)
+                    .background(IdbiOnSurface.copy(alpha = dot2)))
+                Box(modifier = Modifier
+                    .size(6.dp)
+                    .clip(CircleShape)
+                    .background(IdbiOnSurface.copy(alpha = dot3)))
             }
         }
     }
@@ -441,9 +506,16 @@ fun AiAdvisorShimmer() {
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.Top
         ) {
-            Box(modifier = Modifier.size(36.dp).clip(CircleShape).shimmerEffect())
+            Box(modifier = Modifier
+                .size(36.dp)
+                .clip(CircleShape)
+                .shimmerEffect())
             Spacer(modifier = Modifier.width(8.dp))
-            Box(modifier = Modifier.width(200.dp).height(60.dp).clip(RoundedCornerShape(16.dp, 16.dp, 16.dp, 0.dp)).shimmerEffect())
+            Box(modifier = Modifier
+                .width(200.dp)
+                .height(60.dp)
+                .clip(RoundedCornerShape(16.dp, 16.dp, 16.dp, 0.dp))
+                .shimmerEffect())
         }
 
         // User message shimmer
@@ -452,9 +524,16 @@ fun AiAdvisorShimmer() {
             horizontalArrangement = Arrangement.End,
             verticalAlignment = Alignment.Top
         ) {
-            Box(modifier = Modifier.width(150.dp).height(44.dp).clip(RoundedCornerShape(16.dp, 16.dp, 0.dp, 16.dp)).shimmerEffect())
+            Box(modifier = Modifier
+                .width(150.dp)
+                .height(44.dp)
+                .clip(RoundedCornerShape(16.dp, 16.dp, 0.dp, 16.dp))
+                .shimmerEffect())
             Spacer(modifier = Modifier.width(8.dp))
-            Box(modifier = Modifier.size(36.dp).clip(CircleShape).shimmerEffect())
+            Box(modifier = Modifier
+                .size(36.dp)
+                .clip(CircleShape)
+                .shimmerEffect())
         }
 
         // AI message shimmer
@@ -463,9 +542,16 @@ fun AiAdvisorShimmer() {
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.Top
         ) {
-            Box(modifier = Modifier.size(36.dp).clip(CircleShape).shimmerEffect())
+            Box(modifier = Modifier
+                .size(36.dp)
+                .clip(CircleShape)
+                .shimmerEffect())
             Spacer(modifier = Modifier.width(8.dp))
-            Box(modifier = Modifier.width(240.dp).height(80.dp).clip(RoundedCornerShape(16.dp, 16.dp, 16.dp, 0.dp)).shimmerEffect())
+            Box(modifier = Modifier
+                .width(240.dp)
+                .height(80.dp)
+                .clip(RoundedCornerShape(16.dp, 16.dp, 16.dp, 0.dp))
+                .shimmerEffect())
         }
     }
 }
