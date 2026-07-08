@@ -1,35 +1,82 @@
-This is a Kotlin Multiplatform project targeting Android, iOS.
+# MSME Plus (FinPlus)
 
-* [/iosApp](./iosApp/iosApp) contains an iOS application. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+**MSME Plus** is an AI-powered MVP built for the **IDBI Bank Innovate Hackathon**. 
 
-* [/sharedLogic](./sharedLogic/src) is for the code that will be shared between app targets in the project.
-  The most important subfolder is [commonMain](./sharedLogic/src/commonMain/kotlin). If preferred, you
-  can add code to the platform-specific folders here too.
+The core objective of this project is to provide an AI-driven **MSME Financial Health Card** that helps IDBI Bank evaluate New-to-Credit (NTC) and New-to-Bank (NTB) MSMEs using **alternate financial data** rather than relying solely on traditional financial statements.
 
-* [/sharedUI](./sharedUI/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./sharedUI/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./sharedUI/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./sharedUI/src/jvmMain/kotlin)
-    folder is the appropriate location.
+This application demonstrates how AI can improve financial inclusion and accelerate MSME credit assessment.
 
-### Running the apps
+## Key Functionalities
 
-Use the run configurations provided by the run widget in your IDE's toolbar. You can also use these commands and options:
+- **AI-Powered Health Score**: Generates a comprehensive health score based on alternate data.
+- **Alternate Data Integration**: Connects with modern Indian financial infrastructure:
+  - **GST**: Goods and Services Tax data for business revenue tracking.
+  - **UPI**: Real-time transaction data.
+  - **Account Aggregator (AA)**: Secure and consented financial data sharing.
+  - **EPFO**: Employee provident fund data for workforce strength validation.
+  - **Bank Statements**: Direct integration for cash flow analysis.
+- **AI Advisor / Insights**: Leverages Gemini API to provide intelligent insights, financial health analysis, and tailored loan recommendations to MSMEs.
+- **Dashboard & Analytics**: Intuitive visual representation of financial health.
+- **Mock & Live Data**: Capable of seamless switching between mock JSON data (for MVP demo) and real APIs without altering core architecture.
 
-- Android app: `./gradlew :androidApp:assembleDebug`
-- iOS app: open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+## Tech Stack
 
-### Running tests
+The project leverages **Kotlin Multiplatform (KMP)** to share business logic across iOS and Android while maintaining native UI experiences.
 
-Use the run button in your IDE's editor gutter, or run tests using Gradle tasks:
+### Shared & Core
+- **Language**: Kotlin
+- **Framework**: Kotlin Multiplatform (KMP)
+- **Architecture**: Clean Architecture (Domain, Data, Presentation) + **MVI (Model-View-Intent)**
+- **Networking**: Ktor Client
+- **Dependency Injection**: Koin
+- **Serialization**: kotlinx.serialization
+- **Concurrency**: Kotlin Coroutines & Flow
+- **AI Engine**: Google Gemini API
 
-- Android tests: `./gradlew :sharedUI:testAndroidHostTest :sharedLogic:testAndroidHostTest`
-- iOS tests: `./gradlew :sharedLogic:iosSimulatorArm64Test`
+### Android
+- **UI Framework**: Jetpack Compose (Material 3)
+- **Image Loading**: Coil
+- **Navigation**: Jetpack Navigation Compose
+
+### iOS
+- **UI Framework**: SwiftUI
+
+## Project Structure
+
+- [`shared/`](./shared) - Contains all the shared KMP code (Domain, Data, Presentation logic, Ktor networking, Koin DI).
+- [`androidApp/`](./androidApp) - Android native application using Jetpack Compose that observes states from the shared MVI stores.
+- [`iosApp/`](./iosApp) - iOS native application using SwiftUI.
+
+## Architecture Highlights
+
+We follow a strict **Clean Architecture** pattern to ensure a robust, scalable, and testable foundation:
+1. **Domain Layer**: Pure business logic, UseCases, and Models.
+2. **Data Layer**: Repositories, DTOs, API calls, and local data persistence. Includes safe API wrappers and mock capabilities.
+3. **Presentation Layer**: UI Stores using the **MVI Redux** pattern for predictable and unidirectional state management.
+
+For detailed architecture guidelines, please refer to [finPlus_architecture.md](./finPlus_architecture.md).
+
+## Getting Started
+
+### Prerequisites
+- **Android Studio** or **IntelliJ IDEA** (with KMP plugins).
+- **Xcode** (for iOS development and execution).
+- A valid **Gemini API Key**.
+
+### Configuration
+1. Create a `local.properties` file in the project's root directory if it doesn't exist.
+2. Add your Gemini API key:
+   ```properties
+   GEMINI_API_KEY=your_api_key_here
+   ```
+   *(This key is securely injected into the shared code via `BuildConfig` during the build process).*
+
+### Running the Apps
+- **Android**: Select the `androidApp` run configuration in Android Studio and hit Run, or use the terminal:
+  ```bash
+  ./gradlew :androidApp:assembleDebug
+  ```
+- **iOS**: Open the `iosApp/iosApp.xcodeproj` (or `.xcworkspace`) in Xcode and run it on a simulator or device.
 
 ---
-
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+*Built for the IDBI Bank Innovate Hackathon*

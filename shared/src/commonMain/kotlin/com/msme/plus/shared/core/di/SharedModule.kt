@@ -79,7 +79,7 @@ val sharedModule = module {
     single<AlternateDataRepository> { AlternateDataRepositoryImpl() }
     single<AiAdvisorRepository> { AiAdvisorRepositoryImpl(get(), get()) }
     single<AiRecommendationsRepository> { AiRecommendationsRepositoryImpl() }
-    single<BusinessProfileRepository> { BusinessProfileRepositoryImpl() }
+    single<BusinessProfileRepository> { BusinessProfileRepositoryImpl(get()) }
 
     // Factories for UseCases
     factory { CheckTokenValidityUseCase(get()) }

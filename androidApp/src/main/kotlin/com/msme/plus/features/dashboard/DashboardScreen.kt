@@ -1,5 +1,11 @@
 package com.msme.plus.features.dashboard
 
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -47,6 +53,9 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.painterResource
+import com.msme.plus.shared.features.advisor.AiAdvisorIntent
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -58,9 +67,13 @@ fun DashboardScreen(
     onNavigateToAnalytics: () -> Unit,
     onNavigateToAlternateData: () -> Unit,
     onNavigateToAiAdvisor: () -> Unit,
+    onNavigateToAiRecm :()-> Unit,
     viewModel: DashboardViewModel
 ) {
     val state by viewModel.stateFlow.collectAsState()
+    var isDashboardDataLoaded by remember {
+        mutableStateOf(false)
+    }
 
     LaunchedEffect(Unit) {
         if (state.data == null && !state.isLoading) {
@@ -84,19 +97,33 @@ fun DashboardScreen(
     }
 
     Scaffold(
+
+        topBar = {
+            @OptIn(ExperimentalMaterial3Api::class)
+            TopAppBar(
+                title = {
+                    if (isDashboardDataLoaded)
+                        DashboardTopBar(data = state.data!!, onIntent = viewModel::sendIntent)
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = IdbiPrimary
+                )
+            )
+        },
+
         bottomBar = {
             BottomNavBar(
                 currentTab = BottomNavTab.DASHBOARD,
                 onTabSelected = { tab ->
                     when (tab) {
                         BottomNavTab.PROFILE -> onNavigateToProfile()
-                        BottomNavTab.AI -> onNavigateToAiAdvisor()
+                        BottomNavTab.AI_RECM -> onNavigateToAiRecm()
                         else -> {}
                     }
                 }
             )
         },
-        containerColor = IdbiSurface
+        containerColor  = IdbiBackground
     ) { paddingValues ->
         val pullRefreshState = rememberPullRefreshState(
             refreshing = state.isLoading,
@@ -118,6 +145,7 @@ fun DashboardScreen(
                     modifier = Modifier.align(Alignment.Center)
                 )
             } else if (state.data != null) {
+                isDashboardDataLoaded = true
                 DashboardContent(
                     data = state.data!!,
                     onIntent = viewModel::sendIntent
@@ -145,7 +173,8 @@ private fun DashboardContent(
             .verticalScroll(rememberScrollState())
     ) {
         // Top App Bar
-        DashboardTopBar(data = data, onIntent = onIntent)
+      //  DashboardTopBar(data = data, onIntent = onIntent)
+
 
         Column(
             modifier = Modifier

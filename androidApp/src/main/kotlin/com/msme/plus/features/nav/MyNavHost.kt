@@ -60,7 +60,9 @@ fun MyNavHost()
                 onNavigateToLoanAssessment = { navController.navigate(Route.LoanAssessment) },
                 onNavigateToAnalytics = { navController.navigate(Route.RevenueAnalytics) },
                 onNavigateToAlternateData = { navController.navigate(Route.AlternateData) },
-                onNavigateToAiAdvisor = { navController.navigate(Route.AiAdvisor) }
+                onNavigateToAiAdvisor = { navController.navigate(Route.AiAdvisor) },
+                onNavigateToAiRecm = { navController.navigate(Route.AiRecommendations) }
+
             )
         }
 
@@ -100,6 +102,15 @@ fun MyNavHost()
         composable<Route.AiAdvisor> {
             val viewModel = koinViewModel<com.msme.plus.shared.features.advisor.AiAdvisorViewModel>()
             com.msme.plus.features.advisor.AiAdvisorScreen(
+                viewModel = viewModel,
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+
+        composable<Route.AiRecommendations> {
+            val viewModel = koinViewModel<com.msme.plus.shared.features.recommendations.AiRecommendationsViewModel>()
+            com.msme.plus.features.recommendations.AiRecommendationsScreen(
                 viewModel = viewModel,
                 onNavigateBack = { navController.popBackStack() }
             )

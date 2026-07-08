@@ -26,7 +26,7 @@ import com.msme.plus.ui.theme.IdbiSurface
 import com.msme.plus.ui.theme.IdbiSurfaceContainerHigh
 
 enum class BottomNavTab {
-    DASHBOARD, ANALYTICS, AI, LOANS, PROFILE
+    DASHBOARD, ANALYTICS, AI, LOANS, PROFILE,AI_RECM
 }
 
 @Composable
@@ -57,10 +57,10 @@ fun BottomNavBar(
 //            onClick = { onTabSelected(BottomNavTab.ANALYTICS) }
 //        )
         BottomNavItem(
-            iconRes = "psychology",
-            label = "AI",
-            isSelected = currentTab == BottomNavTab.AI,
-            onClick = { onTabSelected(BottomNavTab.AI) }
+            iconRes = "airecm",
+            label = "AI Rec",
+            isSelected = currentTab == BottomNavTab.AI_RECM,
+            onClick = { onTabSelected(BottomNavTab.AI_RECM) }
         )
 //        BottomNavItem(
 //            iconRes = "account_balance_wallet",
@@ -107,6 +107,7 @@ private fun BottomNavItem(
                 "psychology" -> "🤖"
                 "account_balance_wallet" -> "💳"
                 "person" -> "👤"
+                "airecm"->"🧠"
                 else -> "•"
             },
             fontSize = 24.sp,
